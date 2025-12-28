@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: app
       POSTGRES_USER: app
-      POSTGRES_PASSWORD: khuda-website-password
+      POSTGRES_PASSWORD: strongpassword
     ports:
       - "127.0.0.1:54321:5432"
     volumes:

@@ -39,12 +39,12 @@ def main() :
 
     @app.get("/api/questions/{applicant_type}", response_model=QuestionsResponse)
     def get_questions (applicant_type: str, db: Session = Depends(get_db)) :
-        if applicant_type not in ("yb", "ob"):
+        if applicant_type not in ("common", "yb", "ob") :
             raise HTTPException(status_code=404, detail="invalid applicant_type")
 
         qs = (
             db.query(Questions)
-            .filter(Questions.applicant_type.in_(["common", applicant_type]))
+            .filter(Questions.applicant_type.in_([applicant_type]))
             .order_by(Questions.position.asc(), Questions.id.asc())
             .all()
         )

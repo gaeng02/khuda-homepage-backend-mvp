@@ -14,7 +14,6 @@ class QuestionOut (BaseModel) :
     field_type: str
     required: bool
     max_len: Optional[int] = None
-    min_len: Optional[int] = None
     position: int
 
 
