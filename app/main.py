@@ -1,10 +1,13 @@
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
 from sqlalchemy.orm import Session
 
 from app.db import get_db, engine, SessionLocal
 from app.models import Base, Applications, Questions
 from app.schemas import ApplicationCreate, ApplicationCreated, QuestionsResponse
 from app.seed import seed_questions
+
 
 
 def validate_answers(applicant_type: str, questions: list[Questions], answers: dict[str, str]):
@@ -36,6 +39,19 @@ def main() :
         seed_questions(db)
 
     app = FastAPI()
+    
+    origins = [
+        "https://khuda-homepage-web.vercel.app",
+        "http://localhost:3000",
+    ]
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     @app.get("/api/questions/{applicant_type}", response_model=QuestionsResponse)
     def get_questions (applicant_type: str, db: Session = Depends(get_db)) :
@@ -88,3 +104,4 @@ def main() :
 
 
 app = main()
+
