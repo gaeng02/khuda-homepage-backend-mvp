@@ -43,6 +43,7 @@ def main() :
     origins = [
         "https://khuda-homepage-web.vercel.app",
         "http://localhost:3000",
+        "http://localhost:8080"
     ]
 
     app.add_middleware(
