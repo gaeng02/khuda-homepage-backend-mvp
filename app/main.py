@@ -99,6 +99,10 @@ def main() :
         db.refresh(app_row)
 
         return {"application_id": app_row.id, "status": app_row.status}
+    
+    @app.get("/health")
+    def health () :
+        return {"status": "ok"}
 
     return app
 
