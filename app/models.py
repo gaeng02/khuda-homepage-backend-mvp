@@ -31,3 +31,15 @@ class Questions (Base) :
     max_len = Column(Integer, nullable=True)
     position = Column(Integer, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
+
+
+class ApplicationResult (Base) :
+    __tablename__ = "application_result"
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    student_id = Column(Text, nullable=False)
+    phone_number = Column(Text, nullable=False)
+    name = Column(Text, nullable=False)
+    status = Column(Integer, nullable=False, server_default=0)
+    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
+    updated_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())

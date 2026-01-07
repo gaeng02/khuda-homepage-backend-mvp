@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from app.db import get_db, engine, SessionLocal
-from app.models import Base, Applications, Questions
-from app.schemas import ApplicationCreate, ApplicationCreated, QuestionsResponse
+from app.models import Base, Applications, Questions, ApplicationResult
+from app.schemas import ApplicationCreate, ApplicationCreated, QuestionsResponse, ApplicationResultRequest, ApplicationResultResponse
 from app.seed import seed_questions
 
 
@@ -100,6 +100,37 @@ def main() :
         db.refresh(app_row)
 
         return {"application_id": app_row.id, "status": app_row.status}
+    
+    @app.post("/api/application_result", response_model=ApplicationResultResponse)
+    def get_application_result(payload: ApplicationResultRequest, db: Session = Depends(get_db)) :
+        result = (
+            db.query(ApplicationResult)
+            .filter(
+                ApplicationResult.student_id == payload.student_id.strip(),
+                ApplicationResult.phone_number == payload.phone_number.strip(),
+                ApplicationResult.name == payload.name.strip()
+            )
+            .first()
+        )
+        
+        if not result:
+            raise HTTPException(status_code=404, detail="지원서를 찾을 수 없습니다.")
+        
+        status = result.status
+        
+        # 1 : 합격, 2 : 불합격 
+        if (status == 1) :
+            message = "축하합니다! 합격하셨습니다."
+        elif (status == 2) :
+            message = "안타깝게도 불합격하셨습니다."
+        else:
+            message = "아직 결과가 나오지 않았습니다."
+        
+        return {
+            "message": message,
+            "status": str(status)
+        }
+        
     
     @app.get("/health")
     def health () :
