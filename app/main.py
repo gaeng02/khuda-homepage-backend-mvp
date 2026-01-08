@@ -107,7 +107,6 @@ def main() :
             db.query(ApplicationResult)
             .filter(
                 ApplicationResult.student_id == payload.student_id.strip(),
-                ApplicationResult.phone_number == payload.phone_number.strip(),
                 ApplicationResult.name == payload.name.strip()
             )
             .first()
@@ -118,17 +117,18 @@ def main() :
         
         status = result.status
         
-        # 1 : 합격, 2 : 불합격 
-        if (status == 1) :
-            message = "축하합니다! 합격하셨습니다."
-        elif (status == 2) :
-            message = "안타깝게도 불합격하셨습니다."
+        # 0: 결과 없음, 1: 합격, 2: 불합격
+        if status == 1:
+            status_text = "합격"
+        elif status == 2:
+            status_text = "불합격"
         else:
-            message = "아직 결과가 나오지 않았습니다."
+            status_text = "결과 없음"
         
         return {
-            "message": message,
-            "status": str(status)
+            "student_id": result.student_id,
+            "name": result.name,
+            "status": status_text
         }
         
     

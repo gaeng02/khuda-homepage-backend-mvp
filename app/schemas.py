@@ -33,10 +33,10 @@ class ApplicationCreated (BaseModel) :
 
 class ApplicationResultRequest (BaseModel) :
     student_id: str = Field(..., description = "학번")
-    phone_number: str = Field(..., description = "전화번호")
     name: str = Field(..., description = "이름")
 
 
 class ApplicationResultResponse (BaseModel) :
-    message: str
+    student_id: str
+    name: str
     status: str
