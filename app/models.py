@@ -40,6 +40,6 @@ class ApplicationResult (Base) :
     student_id = Column(Text, nullable=False)
     phone_number = Column(Text, nullable=False)
     name = Column(Text, nullable=False)
-    status = Column(Integer, nullable=False, server_default=0)
+    status = Column(Integer, nullable=False, server_default=text("0"))
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())

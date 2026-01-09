@@ -112,10 +112,10 @@ def main() :
             .first()
         )
         
-        if not result:
+        if not result :
             raise HTTPException(status_code=404, detail="지원서를 찾을 수 없습니다.")
         
-        status = result.status
+        status = int(result.status)
         
         # 0: 결과 없음, 1: 합격, 2: 불합격
         if status == 1:
