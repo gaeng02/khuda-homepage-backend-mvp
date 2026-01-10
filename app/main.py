@@ -107,6 +107,7 @@ def main() :
             db.query(ApplicationResult)
             .filter(
                 ApplicationResult.student_id == payload.student_id.strip(),
+                ApplicationResult.phone_number == payload.phone_number.strip(),
                 ApplicationResult.name == payload.name.strip()
             )
             .first()
